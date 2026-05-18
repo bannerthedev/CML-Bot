@@ -2164,12 +2164,22 @@ async def addscrim(
         reason=f"Scrim created by {member}",
     )
 
+    # Build roster text
+    team1_members = [m.mention for m in team1.members]
+    team2_members = [m.mention for m in team2.members]
+
+    team1_roster = ", ".join(team1_members) if team1_members else "None"
+    team2_roster = ", ".join(team2_members) if team2_members else "None"
+
     msg = (
         f"{team1.mention} vs {team2.mention}\n\n"
         "# Welcome to CML Bracket.\n"
-        "> 📅 You guys will have 7 day to schedule \n"
+        "> 📅 You guys will have 7 days to schedule \n"
         "> ⚔️ And 8 days to play\n"
-        "> Ping a staff member when you're ready to schedule or have any questions!"
+        "> Ping a staff member when you're ready to schedule or have any questions!\n\n"
+        "# Rosters\n"
+        f"> **{team1.name}**: {team1_roster}\n"
+        f"> **{team2.name}**: {team2_roster}\n"
     )
 
     await channel.send(msg)
@@ -2183,6 +2193,7 @@ async def addscrim(
         f"Created {channel.mention}{extra}.",
         ephemeral=True,
     )
+
 # ---------- end /addscrim ----------
 
 
@@ -2212,7 +2223,6 @@ async def submit_score(
     semi_finals: bool = False,
     score: str = "",
 ):
-    # perms: staff only (admin or manage_guild)
     member = interaction.user
     perms = getattr(member, "guild_permissions", None)
     if not (perms and (perms.administrator or perms.manage_guild)):
@@ -2240,20 +2250,17 @@ async def submit_score(
 
     await interaction.response.defer(ephemeral=True)
 
-    # Header line: @TEAM1 vs @TEAM2
-    header_line = f"# {teams_team1.mention} vs {teams_team2.mention}\n"
+    # Header line: plain text, no mentions
+    header_line = f"# {teams_team1.name} vs {teams_team2.name}\n"
 
-    # Finals / Semi Finals line
     stage_line = ""
     if finals:
         stage_line = "# FINALS\n"
     elif semi_finals:
         stage_line = "# SEMI FINALS\n"
 
-    # Winner/loser names (no mention in the > lines)
     winner_name = winner.name
     loser_name = loser.name
-
     score_text = score if score.strip() else "N/A"
 
     msg = (
