@@ -16,7 +16,7 @@ from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO)
 # ---------------- CONFIG (fill these) ----------------
-GUILD_ID = 1338455645896310784  # your guild/server ID
+GUILD_ID = 1497059005431021750  # your guild/server ID
 
 # channels
 # channels
