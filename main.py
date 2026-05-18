@@ -2092,8 +2092,9 @@ async def submit_time(
 
     title_line = f"{header}\n" if header else ""
 
+    # use .name instead of .mention here so it doesn't ping
     content = (
-        f"{team1.mention} {team2.mention}\n"
+        f"{team1.name} vs {team2.name}\n"
         f"Team staff must accept this match.\n\n"
         f"{title_line}"
         f"> **{week}\n"
@@ -2108,6 +2109,7 @@ async def submit_time(
     view.accept_channel_id = channel.id
 
     await interaction.response.send_message("Match posted. Waiting for both teams to accept.", ephemeral=True)
+
 
 # ---------- /addscrim command ----------
 @bot.tree.command(
