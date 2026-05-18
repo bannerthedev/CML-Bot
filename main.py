@@ -1,4 +1,3 @@
-# main.py (discord.py v2) — clean full file
 from __future__ import annotations
 
 import asyncio
@@ -6,6 +5,9 @@ import json
 import logging
 import random
 from pathlib import Path
+import dotenv
+from dotenv import load_botenv
+import os
 
 import discord
 from discord import app_commands
@@ -14,7 +16,6 @@ from discord.ext import commands
 logging.basicConfig(level=logging.INFO)
 
 # ---------------- CONFIG (fill these) ----------------
-TOKEN = "MTQ5NDEyOTg4NjU4MTg4Njk3Ng.GHi0w6.UZ84eG1PGpWKWGQsrCCaaou0drwwZRWmKArDAs"
 GUILD_ID = 1338455645896310784  # your guild/server ID
 
 # channels
@@ -2284,7 +2285,7 @@ async def on_ready():
 
 
 async def main():
-    await bot.start(TOKEN)
+    await bot.start(os.getenv(TOKEN))
 
 
 if __name__ == "__main__":
