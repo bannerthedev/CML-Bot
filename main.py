@@ -14,6 +14,7 @@ from discord import app_commands
 from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO)
+load_dotenv()
 
 # ---------------- CONFIG (fill these) ----------------
 GUILD_ID = 1338455645896310784  # your guild/server ID
