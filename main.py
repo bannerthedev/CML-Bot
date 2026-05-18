@@ -2286,7 +2286,7 @@ async def on_ready():
 
 
 async def main():
-    await bot.start(os.getenv(TOKEN))
+    await bot.start(os.getenv("TOKEN"))
 
 
 if __name__ == "__main__":
