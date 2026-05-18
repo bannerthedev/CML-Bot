@@ -626,13 +626,25 @@ class AssignmentView(discord.ui.View):
 
 
 class MatchAcceptView(discord.ui.View):
-    def __init__(self, week: str, time_str: str, header: str, team1_id: int, team2_id: int, timeout: float = 900):
+    def __init__(
+        self,
+        week: str,
+        time_str: str,
+        header: str,
+        team1_id: int,
+        team2_id: int,
+        team1_name: str,
+        team2_name: str,
+        timeout: float = 900,
+    ):
         super().__init__(timeout=timeout)
         self.week = week
         self.time_str = time_str
-        self.header = header
+        self.header = header          # "FINALS!!", "SEMI FINALS!", or ""
         self.team1_id = team1_id
         self.team2_id = team2_id
+        self.team1_name = team1_name  # for text display (no ping)
+        self.team2_name = team2_name  # for text display (no ping)
 
         self.team1_accepted = False
         self.team2_accepted = False
@@ -723,13 +735,19 @@ class MatchAcceptView(discord.ui.View):
                 except Exception:
                     pass
 
+        # build header text used everywhere
+        matchup_line = f"{self.team1_name} vs {self.team2_name}"
+        if self.header:
+            header_text = f"{self.header}\n{matchup_line}"
+        else:
+            header_text = matchup_line
+
         # create match-times post
         mt_ch = guild.get_channel(MATCH_TIMES_CHANNEL_ID)
         mt_msg_id = None
         if mt_ch:
             mt_content = (
-                f"{self.header}\n" if self.header else ""
-            ) + (
+                f"{header_text}\n"
                 f"> **{self.week}\n"
                 f"> Time: {self.time_str}\n"
                 f"> Referee: Unassigned\n"
@@ -748,8 +766,7 @@ class MatchAcceptView(discord.ui.View):
             ping_line = " ".join([r.mention for r in (head_ref, ref_role, head_caster, caster_role) if r])
 
             ass_block = (
-                f"{self.header}\n" if self.header else ""
-            ) + (
+                f"{header_text}\n"
                 f"> **{self.week}\n"
                 f"> Time: {self.time_str}\n"
                 f"> Referee: Unassigned\n"
@@ -759,6 +776,7 @@ class MatchAcceptView(discord.ui.View):
 
             view = AssignmentView(self.week, self.time_str, mt_msg_id, ping_line)
             await as_ch.send(content, view=view)
+
 
 
 # ---------------- TEAM MANAGER COG ----------------
@@ -2084,31 +2102,47 @@ async def submit_time(
         await interaction.response.send_message("Must be used in a server text channel.", ephemeral=True)
         return
 
-    header = ""
+    matchup_line = f"{team1.name} vs {team2.name}"  # no pings
+
     if finals:
         header = "# FINALS!!"
     elif semi_finals:
         header = "# SEMI FINALS!"
+    else:
+        header = ""
 
-    title_line = f"{header}\n" if header else ""
+    if header:
+        header_text = f"{header}\n{matchup_line}"
+    else:
+        header_text = matchup_line
 
-    # use .name instead of .mention here so it doesn't ping
     content = (
-        f"{team1.name} vs {team2.name}\n"
+        f"{header_text}\n"
         f"Team staff must accept this match.\n\n"
-        f"{title_line}"
         f"> **{week}\n"
         f"> Time: {time}\n"
         f"> Referee: Unassigned\n"
         f"> Caster: Unassigned **"
     )
 
-    view = MatchAcceptView(week=week, time_str=time, header=header, team1_id=team1.id, team2_id=team2.id)
+    view = MatchAcceptView(
+        week=week,
+        time_str=time,
+        header=header,          # just label; matchup is passed separately
+        team1_id=team1.id,
+        team2_id=team2.id,
+        team1_name=team1.name,
+        team2_name=team2.name,
+    )
     msg = await channel.send(content, view=view)
     view.accept_message_id = msg.id
     view.accept_channel_id = channel.id
 
-    await interaction.response.send_message("Match posted. Waiting for both teams to accept.", ephemeral=True)
+    await interaction.response.send_message(
+        "Match posted. Waiting for both teams to accept.",
+        ephemeral=True,
+    )
+
 
 
 # ---------- /addscrim command ----------
