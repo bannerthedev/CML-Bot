@@ -1822,8 +1822,8 @@ async def admin_info(interaction: discord.Interaction):
         inline=False,
     )
     embed.add_field(
-        name="/change-team-name", (COMING SOON)
-        value="Change the name of a team (e.g. TEST1 to TEST2).",
+        name="/change-team-name",
+        value="Change the name of a team (COMMING SOON e.g. TEST1 to TEST2).",
         inline=False,
     )
     embed.add_field(
