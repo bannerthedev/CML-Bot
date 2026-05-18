@@ -1910,9 +1910,9 @@ async def faq(interaction: discord.Interaction):
         "> - These applications are looked at when needed, you will be messaged if it is accepted\n"
         "> <#1497062226266292235>\n\n"
         "# ー Role Assign\n"
-        "> 🎥 **Stream Watcher** ー Get Notified when a Live Match is occurring!\n"
-        "> 🚀 **Unborn Captain** ー Allows you to apply your team to participate in the league!\n"
-        "> 🎉 **Event Ping** ー Participate in events! (Will receive pings)\n"
+        "> 🎥 **Stream Ping** ー Get Notified when a Live Match is occurring!\n"
+        "> 🏆 **Match Ping** ー this it how you get pinged for a new vid or a new live stream!\n"
+        "> 📢 **Announcement Ping** ー this is so if the staff does not want to ping everyone then they will ping this role\n"
     )
 
     view = FAQRoleView()
