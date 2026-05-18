@@ -20,11 +20,11 @@ GUILD_ID = 1497059005431021750  # your guild/server ID
 
 # channels
 # channels
-TRANSACTIONS_ID = 1502754549088391290
-MATCH_TIMES_CHANNEL_ID = 1482880836914384967
-ASSIGNMENTS_CHANNEL_ID = 1482879883863392457
-SCRIM_CATEGORY_ID = 1493328827542143137  # put your Scheduling category ID here, or 0 to create/use none
-MATCH_SCORES_CHANNEL_ID = 1475485766850449489  # put your match-score channel ID here
+TRANSACTIONS_ID = 1497062223963619338
+MATCH_TIMES_CHANNEL_ID = 1497062217810448436
+ASSIGNMENTS_CHANNEL_ID = 1506019602386260148
+SCRIM_CATEGORY_ID = 0  # put your Scheduling category ID here, or 0 to create/use none
+MATCH_SCORES_CHANNEL_ID = 1497062224932503633  # put your match-score channel ID here
 
 # staff/team roles
 CAPTAIN_ROLE_ID = 1504294391429468300
@@ -33,15 +33,15 @@ EXECUTIVE_ROLE_ID = 1504294592542150747
 TEAM_PLAYER_ROLE_ID = 1504294341026250904
 
 # assignment roles
-HEAD_REF_ROLE_ID = 1487869639244382240
-REF_ROLE_ID = 1356887381156036688
-HEAD_CASTER_ROLE_ID = 1487870937201246498
-CASTER_ROLE_ID = 1338478126354923530
+HEAD_REF_ROLE_ID = 1506034478076661950
+REF_ROLE_ID = 1497063468040192072
+HEAD_CASTER_ROLE_ID = 1506034508099751946
+CASTER_ROLE_ID = 1497062205391114401
 
 FAQ_CHANNEL_ID = 1497062213892964433  # replace with the channel ID where FAQ should be posted
-STREAM_WATCHER_ROLE_ID = 1462939942391910420  # 🎥 Stream Watcher
-UNBORN_CAPTAIN_ROLE_ID = 1348493310221881375  # 🚀 Unborn Captain
-EVENT_PING_ROLE_ID = 1487607351203856595      # 🎉 Event Ping
+STREAM_WATCHER_ROLE_ID = 1497062208499089478  # 🎥 Stream Watcher
+UNBORN_CAPTAIN_ROLE_ID = 1497062206423044286 # 📢Announcement Ping
+EVENT_PING_ROLE_ID = 1497062207253643386     # 🏆MATCH PINGS
 
 # ----------------------------------------------------
 
@@ -483,7 +483,7 @@ class FAQRoleView(discord.ui.View):
             "Stream Watcher",
         )
 
-    @discord.ui.button(label="🚀 Unborn Captain", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="📢 Announcement Ping", style=discord.ButtonStyle.blurple)
     async def unborn_captain(
         self,
         interaction: discord.Interaction,
@@ -492,10 +492,10 @@ class FAQRoleView(discord.ui.View):
         await self._toggle_role(
             interaction,
             UNBORN_CAPTAIN_ROLE_ID,
-            "Unborn Captain",
+            "Announcement Ping",
         )
 
-    @discord.ui.button(label="🎉 Event Ping", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="🏆 Match Ping", style=discord.ButtonStyle.blurple)
     async def event_ping(
         self,
         interaction: discord.Interaction,
@@ -504,7 +504,7 @@ class FAQRoleView(discord.ui.View):
         await self._toggle_role(
             interaction,
             EVENT_PING_ROLE_ID,
-            "Event Ping",
+            "Match Ping",
         )
 
  
